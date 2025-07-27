@@ -1,0 +1,43 @@
+{
+	"schemaVersion": 1,
+	"id": "totembar",
+	"version": "${version}",
+	"name": "Totem Bar",
+	"description": "Displays a totem counter above the hunger bar using small icons. Easily keep track of how many Totems of Undying you have at a glance.",
+	"authors": ["Yomna"],
+	"license": "LGPL-3.0-only",
+	"icon": "assets/totembar/icon.png",
+	"environment": "*",
+	"contact": {
+		"homepage": "https://modrinth.com/project/YchFfhr2",
+		"sources": "https://github.com/Yxmna/totem-bar"
+	},
+	"suggests": {
+		"cloth-config": "*",
+		"modmenu": "*"
+	},
+	"entrypoints": {
+		"modmenu": [
+			"io.github.yxmna.totembar.TotemBarModMenuImpl"
+		],
+		"client": [
+			"io.github.yxmna.totembar.TotemBarClient"
+		]
+	},
+	"mixins": [
+		"totembar.mixins.json",
+		{
+			"config": "totembar.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.16.14",
+		"minecraft": "~1.21.5",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
