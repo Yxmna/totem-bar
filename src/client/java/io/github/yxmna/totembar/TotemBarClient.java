@@ -91,6 +91,7 @@ public class TotemBarClient implements ClientModInitializer {
 	}
 
 	private static int getTotemBarYOffset(MinecraftClient client, int spacing) {
+		if (client.player == null || client.options.hudHidden) return 0;
 		int offset = 0;
 
 		offset += TotemBarConfig.yOffset;
@@ -100,7 +101,7 @@ public class TotemBarClient implements ClientModInitializer {
 			offset += 2;
 		}
 
-		boolean airBar = client.player.isSubmergedInWater() || client.player.getAir() < client.player.getMaxAir();
+        boolean airBar = client.player.isSubmergedInWater() || client.player.getAir() < client.player.getMaxAir();
 		if (airBar) {
 			offset += spacing;
 		}
@@ -129,10 +130,12 @@ public class TotemBarClient implements ClientModInitializer {
 	/* ---------- counts ---------- */
 
 	private static int countTotems(MinecraftClient cl) {
+		if (cl.player == null || cl.options.hudHidden) return 0;
 		return cl.player.getInventory().count(Items.TOTEM_OF_UNDYING);
 	}
 
 	private static int countHandTotems(MinecraftClient cl) {
+		if (cl.player == null || cl.options.hudHidden) return 0;
 		int h = 0;
 		if (cl.player.getMainHandStack().isOf(Items.TOTEM_OF_UNDYING)) h++;
 		if (cl.player.getOffHandStack().isOf(Items.TOTEM_OF_UNDYING))  h++;
