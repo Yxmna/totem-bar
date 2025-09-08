@@ -8,7 +8,6 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.fabricmc.loader.api.FabricLoader;
@@ -95,6 +94,11 @@ public class TotemBarClient implements ClientModInitializer {
 		int offset = 0;
 
 		offset += TotemBarConfig.yOffset;
+
+
+		if (FabricLoader.getInstance().isModLoaded("raised")) {
+			offset += 2;
+		}
 
 		boolean airBar = client.player.isSubmergedInWater() || client.player.getAir() < client.player.getMaxAir();
 		if (airBar) {
