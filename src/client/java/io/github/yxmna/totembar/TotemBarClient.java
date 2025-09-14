@@ -11,6 +11,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.world.GameMode;
 
 public class TotemBarClient implements ClientModInitializer {
 
@@ -31,7 +32,13 @@ public class TotemBarClient implements ClientModInitializer {
 		if (TotemBarConfig.enabled) {
 			MinecraftClient client = MinecraftClient.getInstance();
 			if (client.player == null || client.options.hudHidden) return;
-			if (client.player.isCreative() || client.player.isSpectator()) return;
+			var im = client.interactionManager;
+			if (im != null) {
+				GameMode gm = im.getCurrentGameMode();
+				if (gm == GameMode.CREATIVE || gm == GameMode.SPECTATOR) {
+					return;
+				}
+			}
 
 			int totInventory = countTotems(client);
 			int handTotems   = countHandTotems(client);
@@ -86,7 +93,8 @@ public class TotemBarClient implements ClientModInitializer {
 					y,
 					0f, 0f,
 					iconSize, iconSize,
-					iconSize, iconSize);
+					iconSize, iconSize
+			);
 		}
 	}
 
