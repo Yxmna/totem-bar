@@ -1,11 +1,9 @@
 package io.github.yxmna.totembar;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.HudLayerRegistrationCallback;
-import net.fabricmc.fabric.api.client.rendering.v1.IdentifiedLayer;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Items;
@@ -23,12 +21,13 @@ public class TotemBarClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		TotemBarConfig.load();
-		HudLayerRegistrationCallback.EVENT.register(layers ->
-				layers.attachLayerAfter(IdentifiedLayer.MISC_OVERLAYS, LAYER_ID, TotemBarClient::render));
+		HudRenderCallback.EVENT.register((ctx, tickDelta) -> {
+			render(ctx);
+		});
 	}
 
 
-	private static void render(DrawContext ctx, Object ticks) {
+	private static void render(DrawContext ctx) {
 		if (TotemBarConfig.enabled) {
 			MinecraftClient client = MinecraftClient.getInstance();
 			if (client.player == null || client.options.hudHidden) return;
@@ -87,7 +86,6 @@ public class TotemBarClient implements ClientModInitializer {
 
 			Identifier tex = isFull ? TEX_FULL : TEX_EMPTY;
 			ctx.drawTexture(
-					RenderLayer::getGuiTextured,
 					tex,
 					x0 + i * step,
 					y,
